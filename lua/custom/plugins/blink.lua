@@ -1,7 +1,7 @@
 return {
   { -- Autocompletion
     'saghen/blink.cmp',
-    event = 'VimEnter',
+    -- event = 'VimEnter',
     version = '1.*',
     dependencies = {
       -- Snippet Engine
@@ -61,17 +61,43 @@ return {
       appearance = {
         -- 'mono' (default) for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
         -- Adjusts spacing to ensure icons are aligned
-        nerd_font_variant = 'mono',
+        nerd_font_variant = 'normal',
       },
 
       completion = {
         -- By default, you may press `<c-space>` to show the documentation.
         -- Optionally, set `auto_show = true` to show the documentation after a delay.
-        documentation = { auto_show = false },
+        documentation = { auto_show = true },
       },
 
+      -- ghost_text = { enabled = true },
+
       sources = {
-        default = { 'lsp', 'path', 'snippets' },
+        default = { 'lsp', 'path', 'snippets', 'buffer' },
+        providers = {
+          snippets = {
+            min_keyword_length = 2,
+            score_offset = 4,
+          },
+          lsp = {
+            min_keyword_length = 3,
+            score_offset = 3,
+          },
+          path = {
+            min_keyword_length = 3,
+            score_offset = 2,
+          },
+          buffer = {
+            min_keyword_length = 5,
+            score_offset = 1,
+          },
+        },
+      },
+
+      cmdline = {
+        enabled = true,
+        keymap = { preset = 'inherit' },
+        completion = { menu = { auto_show = true } },
       },
 
       snippets = { preset = 'luasnip' },

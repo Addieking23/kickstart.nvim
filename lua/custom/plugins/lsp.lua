@@ -20,6 +20,7 @@ return {
 
       -- Useful status updates for LSP.
       { 'j-hui/fidget.nvim', opts = {} },
+      { 'saghen/blink.cmp', opts = {} },
     },
     config = function()
       -- Brief aside: **What is LSP?**
@@ -124,8 +125,7 @@ return {
         ruff = {
           settings = {
             fixAll = true,
-            organizeimports = true,
-            lint = { enable = true },
+            organizeImports = true,
           },
         },
         -- clangd = {},
@@ -185,6 +185,7 @@ return {
 
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
+      vim.lsp.config('*', { capabilities = require('blink.cmp').get_lsp_capabilities() })
       for name, server in pairs(servers) do
         vim.lsp.config(name, server)
         vim.lsp.enable(name)
