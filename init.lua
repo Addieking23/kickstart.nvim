@@ -93,6 +93,15 @@ vim.g.maplocalleader = ' '
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = true
 
+-- [[ Importing Options ]]
+require 'options'
+
+-- [[ Importing Keymaps ]]
+require 'keymaps'
+
+-- [[ Importing Autocommands ]]
+require 'autocommands'
+
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
@@ -176,15 +185,6 @@ require('lazy').setup({
     icons = vim.g.have_nerd_font and {},
   },
 })
-
--- [[ Importing Keymaps ]]
-require 'keymaps'
-
--- [[ Importing Options ]]
-require 'options'
-
--- [[ Importing Autocommands ]]
-require 'autocommands'
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et

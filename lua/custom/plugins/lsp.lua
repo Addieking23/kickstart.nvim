@@ -20,7 +20,7 @@ return {
 
       -- Useful status updates for LSP.
       { 'j-hui/fidget.nvim', opts = {} },
-      { 'saghen/blink.cmp', opts = {} },
+      'saghen/blink.cmp', -- configured in custom.plugins.blink
     },
     config = function()
       -- Brief aside: **What is LSP?**
@@ -77,33 +77,18 @@ return {
           --  For example, in C this would take you to the header.
           map('grD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
 
-          -- The following two autocommands are used to highlight references of the
-          -- word under your cursor when your cursor rests there for a little while.
-          --    See `:help CursorHold` for information about when this is executed
-          --
-          -- When you move your cursor, the highlights will be cleared (the second autocommand).
+          -- NOTE: highlighting references of the word under your cursor is
+          -- handled by snacks.words (see custom.plugins.snacks), which also
+          -- provides ]] / [[ to jump between references.
           local client = vim.lsp.get_client_by_id(event.data.client_id)
-          if client and client:supports_method('textDocument/documentHighlight', event.buf) then
-            local highlight_augroup = vim.api.nvim_create_augroup('kickstart-lsp-highlight', { clear = false })
-            vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
-              buffer = event.buf,
-              group = highlight_augroup,
-              callback = vim.lsp.buf.document_highlight,
-            })
 
-            vim.api.nvim_create_autocmd({ 'CursorMoved', 'CursorMovedI' }, {
-              buffer = event.buf,
-              group = highlight_augroup,
-              callback = vim.lsp.buf.clear_references,
-            })
-
-            vim.api.nvim_create_autocmd('LspDetach', {
-              group = vim.api.nvim_create_augroup('kickstart-lsp-detach', { clear = true }),
-              callback = function(event2)
-                vim.lsp.buf.clear_references()
-                vim.api.nvim_clear_autocmds { group = 'kickstart-lsp-highlight', buffer = event2.buf }
-              end,
-            })
+          -- vtsls exposes organize imports as a code action rather than a command
+          if client and client.name == 'vtsls' then
+            map(
+              '<leader>co',
+              function() vim.lsp.buf.code_action { context = { only = { 'source.organizeImports' }, diagnostics = {} }, apply = true } end,
+              '[C]ode [O]rganize Imports'
+            )
           end
 
           -- The following code creates a keymap to toggle inlay hints in your
@@ -123,23 +108,58 @@ return {
       local servers = {
         ty = {},
         ruff = {
-          settings = {
-            fixAll = true,
-            organizeImports = true,
+          -- The ruff server reads its settings from init_options
+          -- (see `:h lspconfig-all` / https://docs.astral.sh/ruff/editors/settings/)
+          init_options = {
+            settings = {
+              fixAll = true,
+              organizeImports = true,
+            },
           },
         },
+        astro = {
+          init_options = {},
+        },
+        tombi = {},
+        tailwindcss = {},
         -- clangd = {},
         -- gopls = {},
         -- pyright = {},
         -- rust_analyzer = {},
-        --
-        -- Some languages (like typescript) have entire language plugins that can be useful:
-        --    https://github.com/pmizio/typescript-tools.nvim
-        --
-        -- But for many setups, the LSP (`ts_ls`) will work just fine
-        -- ts_ls = {},
 
-        stylua = {}, -- Used to format Lua code
+        -- TypeScript/JavaScript via vtsls (wraps VS Code's tsserver extension).
+        -- Formatting is handled by biome through conform, so tsserver's
+        -- formatter is never used.
+        vtsls = {
+          settings = {
+            complete_function_calls = true,
+            vtsls = {
+              enableMoveToFileCodeAction = true,
+              autoUseWorkspaceTsdk = true,
+              experimental = {
+                completion = { enableServerSideFuzzyMatch = true },
+              },
+            },
+            typescript = {
+              updateImportsOnFileMove = { enabled = 'always' },
+              suggest = { completeFunctionCalls = true },
+              preferences = { quoteStyle = 'single' },
+              inlayHints = {
+                parameterNames = { enabled = 'all', suppressWhenArgumentMatchesName = true },
+                parameterTypes = { enabled = true },
+                variableTypes = { enabled = true, suppressWhenTypeMatchesName = true },
+                propertyDeclarationTypes = { enabled = true },
+                functionLikeReturnTypes = { enabled = true },
+                enumMemberValues = { enabled = true },
+              },
+            },
+            javascript = {
+              updateImportsOnFileMove = { enabled = 'always' },
+              suggest = { completeFunctionCalls = true },
+              preferences = { quoteStyle = 'single' },
+            },
+          },
+        },
 
         -- Special Lua Config, as recommended by neovim help docs
         lua_ls = {
@@ -181,6 +201,8 @@ return {
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         -- You can add other tools here that you want Mason to install
+        'stylua', -- Used by conform to format Lua code
+        'biome', -- Used by conform to format JS/TS (project-local installs take precedence)
       })
 
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }

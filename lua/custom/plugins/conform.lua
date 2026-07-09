@@ -24,7 +24,9 @@ return {
           return nil
         else
           return {
-            timeout_ms = 500,
+            -- biome (node) can take >500ms on its first cold-start run,
+            -- which made the first format-on-save silently no-op
+            timeout_ms = 3000,
             lsp_format = 'fallback',
           }
         end
@@ -35,8 +37,11 @@ return {
         python = { 'ruff' },
         --
         -- You can use 'stop_after_first' to run the first available formatter from the list
-        javascript = { 'biome' },
-        typescript = { 'biome' },
+        javascript = { 'biome', 'biome-organize-imports' },
+        javascriptreact = { 'biome', 'biome-organize-imports' },
+        typescript = { 'biome', 'biome-organize-imports' },
+        typescriptreact = { 'biome', 'biome-organize-imports' },
+        toml = { 'tombi' },
       },
     },
   },

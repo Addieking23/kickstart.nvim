@@ -33,6 +33,7 @@ return {
 
       local available_parsers = require('nvim-treesitter').get_available()
       vim.api.nvim_create_autocmd('FileType', {
+        group = vim.api.nvim_create_augroup('custom-treesitter-attach', { clear = true }),
         callback = function(args)
           local buf, filetype = args.buf, args.match
 
