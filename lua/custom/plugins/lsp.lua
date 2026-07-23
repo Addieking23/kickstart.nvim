@@ -3,12 +3,21 @@ return {
   {
     -- Main LSP Configuration
     'neovim/nvim-lspconfig',
+
+    -- Nothing here matters until there is a real file in a buffer, so hold off
+    -- until one is read/created. `vim.lsp.enable()` below still attaches to the
+    -- triggering buffer, since FileType fires after BufReadPre. This also keeps
+    -- mason, fidget and blink.cmp (all dependencies) off the startup path.
+    event = { 'BufReadPre', 'BufNewFile' },
     dependencies = {
       -- Automatically install LSPs and related tools to stdpath for Neovim
       -- Mason must be loaded before its dependents so we need to set it up here.
       -- NOTE: `opts = {}` is the same as calling `require('mason').setup({})`
       {
         'mason-org/mason.nvim',
+        -- Normally pulled in with nvim-lspconfig above, but `:Mason` should
+        -- also work straight from the dashboard, before any file is open.
+        cmd = { 'Mason', 'MasonInstall', 'MasonUninstall', 'MasonUninstallAll', 'MasonLog', 'MasonUpdate' },
         ---@module 'mason.settings'
         ---@type MasonSettings
         ---@diagnostic disable-next-line: missing-fields

@@ -4,6 +4,9 @@
 ---@type LazySpec
 return {
   'lewis6991/gitsigns.nvim',
+  -- Signs and hunk keymaps are per-buffer, so there is nothing to do until a
+  -- file is open.
+  event = { 'BufReadPre', 'BufNewFile' },
   ---@module 'gitsigns'
   ---@type Gitsigns.Config
   ---@diagnostic disable-next-line: missing-fields

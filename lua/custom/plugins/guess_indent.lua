@@ -1,5 +1,7 @@
 return {
-  { 'NMAC427/guess-indent.nvim', opts = {} },
+  -- Detection happens on BufReadPost, so loading at BufReadPre is early enough
+  -- to still catch the first file opened.
+  { 'NMAC427/guess-indent.nvim', event = { 'BufReadPre', 'BufNewFile' }, cmd = 'GuessIndent', opts = {} },
 
   -- Alternatively, use `config = function() ... end` for full control over the configuration.
   -- If you prefer to call `setup` explicitly, use:

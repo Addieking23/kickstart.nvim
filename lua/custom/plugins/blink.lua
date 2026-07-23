@@ -22,6 +22,13 @@ return {
   --   build = "cargo build --release"
   version = '1.*',
 
+  -- Completion is only needed once you start typing. In practice blink is
+  -- usually pulled in slightly earlier than this, as a dependency of
+  -- nvim-lspconfig — that is deliberate, because blink registers its LSP
+  -- capabilities on load and those have to be in place before a server
+  -- starts. These events are the floor, for buffers with no language server.
+  event = { 'InsertEnter', 'CmdlineEnter' },
+
   ---@module "blink.cmp"
   ---@type blink.cmp.Config
   opts = {

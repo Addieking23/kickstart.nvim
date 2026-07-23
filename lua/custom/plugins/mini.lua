@@ -1,6 +1,10 @@
 return {
   { -- Collection of various small independent plugins/modules
     'nvim-mini/mini.nvim',
+    -- VeryLazy fires right after the UI is drawn: none of these modules are
+    -- reachable before the first keypress, and the statusline is in place
+    -- before it can be noticed.
+    event = 'VeryLazy',
     config = function()
       -- Better Around/Inside textobjects
       --

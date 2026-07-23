@@ -1,0 +1,15 @@
+WRN 2026-07-22T23:27:52.213 ?.5        server_start:197: Failed to start server: operation not permitted: /run/user/1000/kickstart_nvim.5.0
+WRN 2026-07-22T23:27:55.093 ?.15       server_start:197: Failed to start server: operation not permitted: /run/user/1000/kickstart_nvim.15.0
+WRN 2026-07-22T23:27:56.262 ?.25       server_start:197: Failed to start server: operation not permitted: /run/user/1000/kickstart_nvim.25.0
+WRN 2026-07-22T23:28:02.394 ?.4        server_start:197: Failed to start server: operation not permitted: /run/user/1000/kickstart_nvim.4.0
+WRN 2026-07-22T23:28:03.535 ?.14       server_start:197: Failed to start server: operation not permitted: /run/user/1000/kickstart_nvim.14.0
+WRN 2026-07-22T23:28:04.705 ?.24       server_start:197: Failed to start server: operation not permitted: /run/user/1000/kickstart_nvim.24.0
+WRN 2026-07-22T23:28:21.151 ?.4        server_start:197: Failed to start server: operation not permitted: /run/user/1000/kickstart_nvim.4.0
+WRN 2026-07-22T23:28:29.259 ?.4        server_start:197: Failed to start server: operation not permitted: /run/user/1000/kickstart_nvim.4.0
+WRN 2026-07-22T23:28:30.348 ?.14       server_start:197: Failed to start server: operation not permitted: /run/user/1000/kickstart_nvim.14.0
+WRN 2026-07-22T23:28:31.444 ?.24       server_start:197: Failed to start server: operation not permitted: /run/user/1000/kickstart_nvim.24.0
+WRN 2026-07-22T23:28:40.544 ?.4        server_start:197: Failed to start server: operation not permitted: /run/user/1000/kickstart_nvim.4.0
+WRN 2026-07-22T23:28:42.636 ?.14       server_start:197: Failed to start server: operation not permitted: /run/user/1000/kickstart_nvim.14.0
+WRN 2026-07-22T23:30:17.215 ?.4        server_start:197: Failed to start server: operation not permitted: /run/user/1000/kickstart_nvim.4.0
+WRN 2026-07-22T23:32:04.013 ?.4        server_start:197: Failed to start server: operation not permitted: /run/user/1000/kickstart_nvim.4.0
+WRN 2026-07-22T23:35:08.437 ?.4        server_start:197: Failed to start server: operation not permitted: /run/user/1000/kickstart_nvim.4.0

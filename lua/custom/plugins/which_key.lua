@@ -1,7 +1,9 @@
 return {
   { -- Useful plugin to show you pending keybinds.
     'folke/which-key.nvim',
-    event = 'VimEnter',
+    -- VeryLazy rather than VimEnter: which-key only has to exist by the time a
+    -- key is actually held down, which is well after the UI is drawn.
+    event = 'VeryLazy',
     ---@module 'which-key'
     ---@type wk.Opts
     ---@diagnostic disable-next-line: missing-fields
